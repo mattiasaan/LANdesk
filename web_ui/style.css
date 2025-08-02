@@ -1,0 +1,118 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #121212;
+  padding: 20px;
+  color: #eee;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: #0A0A0A;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #f0f0f0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+form input[type="text"],
+form textarea {
+  padding: 10px;
+  border: 1px solid #161618;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #121212;
+  color: #eee;
+}
+
+form button {
+  padding: 10px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #1c418b;
+}
+
+.data-container {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.note {
+  background-color: #121212;
+  border: 1px solid #161618;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.7);
+  color: #ddd;
+}
+
+.note h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #f0f0f0;
+}
+
+.note p {
+  font-size: 15px;
+  color: #bbb;
+}
+
+.note .actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.note .actions button {
+  padding: 5px 10px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+}
+
+.note .actions .edit {
+  background-color: #ffbf00c7;
+  color: #222;
+}
+
+.note .actions .edit:hover {
+  background-color: #b98c04ce;
+}
+
+.note .actions .delete {
+  background-color: #ff0019a9;
+}
+
+.note .actions .delete:hover {
+  background-color: #88232dd8;
+}

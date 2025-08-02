@@ -1,0 +1,40 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.log
+*.env
+*.sqlite3
+*.db
+.env
+.env.*
+
+
+.vscode/
+
+# === JSON files ===
+*.json
+
+# === macOS/Linux system files ===
+.DS_Store
+Thumbs.db
+
+# === Node.js / Frontend ===
+node_modules/
+dist/
+build/
+*.lock
+
+# === Virtual environments (Python) ===
+venv/
+.venv/
+
+# === Public folder uploads ===
+public/uploads/
+public/data/
+
+# === Misc ===
+*.bak
+*.tmp
+*.swp
