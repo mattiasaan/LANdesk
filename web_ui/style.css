@@ -8,6 +8,7 @@ body {
   background-color: #121212;
   padding: 20px;
   color: #eee;
+  font-family: sans-serif;
 }
 
 .container {
@@ -32,6 +33,7 @@ form {
 }
 
 form input[type="text"],
+form input[type="date"],
 form textarea {
   padding: 10px;
   border: 1px solid #161618;
@@ -56,14 +58,16 @@ form button:hover {
   background-color: #1c418b;
 }
 
+/* container */
 .data-container {
   margin-top: 30px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 20px;
 }
 
-.note {
+/* individual card */
+.card {
   background-color: #121212;
   border: 1px solid #161618;
   padding: 20px;
@@ -71,26 +75,94 @@ form button:hover {
   position: relative;
   box-shadow: 0 2px 5px rgba(0,0,0,0.7);
   color: #ddd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
-.note h2 {
+
+.card h2 {
   font-size: 20px;
   margin-bottom: 10px;
   color: #f0f0f0;
 }
 
-.note p {
+.card p {
   font-size: 15px;
   color: #bbb;
 }
 
-.note .actions {
+/* action butons */
+.card .actions {
   margin-top: 15px;
+  width: 100%;
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 15px;
+  align-items: stretch;
 }
 
-.note .actions button {
+.status-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+}
+
+.status-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #eee;
+}
+
+.status-toggle input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #00c853;
+  cursor: pointer;
+}
+
+.date {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+
+button.edit,
+button.delete {
+  padding: 6px 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button.edit {
+  background-color: #007bff;
+  color: white;
+}
+
+button.delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+
+.card .actions button {
   padding: 5px 10px;
   font-size: 14px;
   border: none;
@@ -100,19 +172,19 @@ form button:hover {
   color: white;
 }
 
-.note .actions .edit {
+.card .actions .edit {
   background-color: #ffbf00c7;
   color: #222;
 }
 
-.note .actions .edit:hover {
+.card .actions .edit:hover {
   background-color: #b98c04ce;
 }
 
-.note .actions .delete {
+.card .actions .delete {
   background-color: #ff0019a9;
 }
 
-.note .actions .delete:hover {
+.card .actions .delete:hover {
   background-color: #88232dd8;
 }

@@ -26,7 +26,7 @@ descriptions = {
     "Allenamento": ["lunedi petto", "giovedi braccia", "cardio settimanale"],
 }
 
-for _ in range(1000):
+for _ in range(5):
     title = random.choice(titles)
     desc_options = descriptions.get(title, ["Note generica"])
     description = ", ".join(random.sample(desc_options, k=min(2, len(desc_options))))

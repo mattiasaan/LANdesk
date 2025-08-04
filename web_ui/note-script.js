@@ -64,7 +64,7 @@ fetch(url)
     const container = document.getElementById("data-container");
     data.forEach((note) => {
       const noteElement = document.createElement("div");
-      noteElement.className = "note";
+      noteElement.className = "card";
       noteElement.innerHTML = `
       <h2>${note.title}</h2>
       <p>${note.description}</p>
