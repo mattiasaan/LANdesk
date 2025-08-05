@@ -33,6 +33,7 @@ venv/
 # === Public folder uploads ===
 public/uploads/
 public/data/
+public/
 
 # === Misc ===
 *.bak
