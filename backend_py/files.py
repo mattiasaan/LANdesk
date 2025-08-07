@@ -1,45 +1,78 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse, FileResponse
 import os
+from uuid import uuid4
+import json
 
 router = APIRouter()
 
 #http://127.0.0.1:8000/files/list
 #http://127.0.0.1:8000/files/download/
 
-SHARED_FOLDER = "public"
-
-os.makedirs(SHARED_FOLDER, exist_ok=True)
-
-@router.get("/list")
-def list_files():
-  files = []
-
-  for root, _, filenames in os.walk(SHARED_FOLDER):
-    for f in filenames:
-      full_path = os.path.join(root, f)
-      rel_path = os.path.relpath(full_path, SHARED_FOLDER).replace("\\", "/")
-      files.append({
-        "name": f,
-        "path": rel_path,
-        "size": os.path.getsize(full_path),
-        "type": os.path.splitext(f)[1][1:]
-      })
-  return JSONResponse(content={"files": files})
-
-
-@router.get("/download/{file_path:path}")
-def download_file(file_path: str):
-  full_path = os.path.join(SHARED_FOLDER, file_path)
-
-  if not os.path.isfile(full_path):
-    raise HTTPException(status_code=404, detail="File not found")
-  return FileResponse(full_path, filename=os.path.basename(full_path))
+SHARED_FOLDER = "public/public_files"
+METADATA_PATH = "public/metadata/files_metadata.json"
 
 
 @router.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
-  destination = os.path.join(SHARED_FOLDER, file.filename)
-  with open(destination, "wb") as buffer:
-    buffer.write(await file.read())
-  return {"filename": file.filename, "status": "uploaded"}
+  file_id = str(uuid4())
+  ext = os.path.splitext(file.filename)[1]
+  stored_name = f"{file_id}{ext}"
+  path = os.path.join(SHARED_FOLDER, stored_name)
+
+  with open(path, "wb") as f_out:
+    f_out.write(await file.read())
+
+  metadata = load_metadata()
+  metadata[file_id] = {
+    "original_name": file.filename,
+    "stored_name": stored_name,
+    "size": os.path.getsize(path),
+    "type": ext.lstrip(".")
+  }
+  save_metadata(metadata)
+
+  return {"id": file_id, "name": file.filename}
+
+@router.get("/list")
+async def list_files():
+  metadata = load_metadata()
+  return {"files": [
+    {"id": fid, "name": data["original_name"], "size": data["size"], "type": data["type"]}
+    for fid, data in metadata.items()
+  ]}
+
+@router.get("/download/{file_id}")
+async def download_file(file_id: str):
+  metadata = load_metadata()
+  file_data = metadata.get(file_id)
+
+  path = os.path.join(SHARED_FOLDER, file_data["stored_name"])
+
+  return FileResponse(path, filename=file_data["original_name"])
+
+@router.delete("/delete/{file_id}", status_code=204)
+async def delete_file(file_id: str):
+  metadata = load_metadata()
+
+  if file_id not in metadata:
+    raise HTTPException(404, detail="File not found")
+
+  file_data = metadata[file_id]
+  del metadata[file_id]
+
+  path = os.path.join(SHARED_FOLDER, file_data["stored_name"])
+  if os.path.exists(path):
+    os.remove(path)
+
+  save_metadata(metadata)
+
+
+def load_metadata():
+  with open(METADATA_PATH) as f:
+    return json.load(f)
+
+
+def save_metadata(data):
+  with open(METADATA_PATH, "w") as f:
+    json.dump(data, f, indent=2)

@@ -25,7 +25,7 @@ async def root():
     return "main page"
 
 
-SHARED_FOLDER = "public"
+SHARED_FOLDER = "public/public_files"
 os.makedirs(SHARED_FOLDER, exist_ok=True)
 
 app.mount("/shared", StaticFiles(directory=SHARED_FOLDER), name="shared")
