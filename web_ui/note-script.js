@@ -47,7 +47,6 @@ function saveNote() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Note added successfully:", data);
         form.reset();
         location.reload();
       })
@@ -106,10 +105,7 @@ function addNote() {
     body: JSON.stringify(newNote),
   })
     .then((response) => response.json())
-    .then((data) => {
-      console.log("Note added successfully:", data);
-      location.reload();
-    })
+    .then(() => location.reload())
     .catch((error) => {
       console.error("Error adding note:", error);
     });
@@ -139,13 +135,10 @@ function deleteNote(id) {
       method: "DELETE",
     }).then((response) => {
       if (response.ok) {
-        console.log(`Note with ID ${id} deleted successfully.`);
         location.reload();
       } else {
         console.error(`Failed to delete note with ID ${id}.`);
       }
     });
-  } else {
-    console.log(`Deletion of note with ID ${id} cancelled.`);
   }
 }

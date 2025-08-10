@@ -37,10 +37,10 @@ async def upload_file(file: UploadFile = File(...)):
 @router.get("/list")
 async def list_files():
   metadata = load_metadata()
-  return {"files": [
+  return [
     {"id": fid, "name": data["original_name"], "size": data["size"], "type": data["type"]}
     for fid, data in metadata.items()
-  ]}
+  ]
 
 @router.get("/download/{file_id}")
 async def download_file(file_id: str):

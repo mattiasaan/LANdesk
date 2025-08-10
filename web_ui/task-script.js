@@ -28,8 +28,7 @@ function savetask() {
       body: JSON.stringify(taskData),
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log("task updated successfully:", data);
+      .then(() => {
         form.reset();
         form.removeAttribute("data-task-id");
         location.reload();
@@ -47,8 +46,7 @@ function savetask() {
       body: JSON.stringify(taskData),
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log("task added successfully:", data);
+      .then(() => {
         form.reset();
         location.reload();
       })
@@ -119,10 +117,7 @@ function addtask() {
     body: JSON.stringify(newtask),
   })
     .then((response) => response.json())
-    .then((data) => {
-      //console.log("task added successfully:", data);
-      location.reload();
-    })
+    .then(() => location.reload())
     .catch((error) => {
       console.error("Error adding task:", error);
     });
@@ -150,19 +145,16 @@ function edittask(id) {
 
 function deletetask(id) {
   if (confirm("Are you sure you want to delete this task?")) {
-    //console.log(`Delete task with ID: ${id}`);
     fetch(`${url}/${id}`, {
       method: "DELETE",
     }).then((response) => {
       if (response.ok) {
-        //console.log(`task with ID ${id} deleted successfully.`);
         location.reload();
       } else {
         console.error(`Failed to delete task with ID ${id}.`);
       }
     });
   } else {
-    //console.log(`Deletion of task with ID ${id} cancelled.`);
   }
 }
 
@@ -177,7 +169,6 @@ function toggleStatus(id) {
       }
       return response.json();
     })
-
     .then((task) => {
       const updatedTask = {
         title: task.title,
@@ -203,7 +194,6 @@ function toggleStatus(id) {
     })
 
     .then((data) => {
-      //console.log(`Task ${id} status updated to:`, data.completed);
       checkbox.nextElementSibling.textContent = data.completed ? "Completato" : "Incompleto";
     })
 

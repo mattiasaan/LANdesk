@@ -14,10 +14,10 @@ body {
 .container {
   max-width: 800px;
   margin: auto;
-  background: #0A0A0A;
+  background: #0a0a0a;
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
 }
 
 h1 {
@@ -73,7 +73,7 @@ form button:hover {
   padding: 20px;
   border-radius: 10px;
   position: relative;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.7);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
   color: #ddd;
   display: flex;
   flex-direction: column;
@@ -81,7 +81,6 @@ form button:hover {
   justify-content: center;
   text-align: center;
 }
-
 
 .card h2 {
   font-size: 20px;
@@ -142,7 +141,6 @@ form button:hover {
   gap: 15px;
 }
 
-
 button.edit,
 button.delete {
   padding: 6px 12px;
@@ -160,7 +158,6 @@ button.delete {
   background-color: #dc3545;
   color: white;
 }
-
 
 .card .actions button {
   padding: 5px 10px;

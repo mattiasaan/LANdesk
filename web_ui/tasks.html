@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="it">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Gestione task</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="task-script.js" defer></script>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gestione task</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="task-script.js" defer></script>
+  </head>
 
-<body>
-  <div class="container">
-    <h1>Le Tue task</h1>
+  <body>
+    <div class="container">
+      <h1>Le Tue task</h1>
 
+      <form id="task-form">
+        <input type="text" id="task-title" placeholder="Titolo" required />
+        <textarea id="task-description" placeholder="Descrizione"></textarea>
+        <input type="date" id="task-date" required />
+        <button type="submit">Salva task</button>
+      </form>
 
-    <form id="task-form">
-      <input type="text" id="task-title" placeholder="Titolo" required>
-      <textarea id="task-description" placeholder="Descrizione"></textarea>
-      <input type="date" id="task-date" required>
-      <button type="submit">Salva task</button>
-    </form>
-
-    <div class="data-container" id="data-container"></div>
-  </div>
-</body>
+      <div class="data-container" id="data-container"></div>
+    </div>
+  </body>
 </html>

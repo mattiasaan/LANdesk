@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html lang="it">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Gestione Note</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="note-script.js" defer></script>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gestione Note</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="note-script.js" defer></script>
+  </head>
 
-<body>
-  <div class="container">
-    <h1>Le Tue Note</h1>
+  <body>
+    <div class="container">
+      <h1>Le Tue Note</h1>
 
+      <form id="note-form">
+        <input type="text" id="note-title" placeholder="Titolo" required />
+        <textarea
+          id="note-description"
+          placeholder="Descrizione"
+          required
+        ></textarea>
+        <button type="submit">Salva Nota</button>
+      </form>
 
-    <form id="note-form">
-      <input type="text" id="note-title" placeholder="Titolo" required>
-      <textarea id="note-description" placeholder="Descrizione" required></textarea>
-      <button type="submit">Salva Nota</button>
-    </form>
-
-
-
-    <!-- Contenitore per le note -->
-    <div class="data-container" id="data-container"></div>
-  </div>
-</body>
+      <!-- Contenitore per le note -->
+      <div class="data-container" id="data-container"></div>
+    </div>
+  </body>
 </html>

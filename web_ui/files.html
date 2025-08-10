@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="it">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Gestione FIles</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="files-script.js" defer></script>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gestione FIles</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="files-script.js" defer></script>
+  </head>
 
-<body>
-  <h1>test</h1>
-</body>
+  <body>
+    <div class="container">
+      <h1>I tuoi file</h1>
+      <form>
+        <input type="file" id="file-input" />
+        <button onclick="addFile()" type="button">upload the new file</button>
+      </form>
+      <div class="data-container" id="data-container"></div>
+    </div>
+  </body>
+</html>
