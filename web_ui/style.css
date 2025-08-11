@@ -141,24 +141,6 @@ form button:hover {
   gap: 15px;
 }
 
-button.edit,
-button.delete {
-  padding: 6px 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-button.edit {
-  background-color: #007bff;
-  color: white;
-}
-
-button.delete {
-  background-color: #dc3545;
-  color: white;
-}
-
 .card .actions button {
   padding: 5px 10px;
   font-size: 14px;
@@ -184,4 +166,12 @@ button.delete {
 
 .card .actions .delete:hover {
   background-color: #88232dd8;
+}
+
+.card .actions .download {
+  background-color: #5eff00b4;
+}
+
+.card .actions .download:hover {
+  background-color: #3bbb00c7;
 }

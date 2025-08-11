@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse, FileResponse
 import os
 from uuid import uuid4
 import json
+import mimetypes
 
 router = APIRouter()
 
@@ -47,9 +48,20 @@ async def download_file(file_id: str):
   metadata = load_metadata()
   file_data = metadata.get(file_id)
 
+  if not file_data:
+    return {"error": "File non trovato"}
   path = os.path.join(SHARED_FOLDER, file_data["stored_name"])
 
-  return FileResponse(path, filename=file_data["original_name"])
+  mime_type, _ = mimetypes.guess_type(file_data["original_name"])
+
+  if not mime_type:
+    mime_type = "application/octet-stream"
+
+  return FileResponse(
+    path,
+    filename=file_data["original_name"],
+    media_type=mime_type
+  )
 
 @router.delete("/delete/{file_id}", status_code=204)
 async def delete_file(file_id: str):
