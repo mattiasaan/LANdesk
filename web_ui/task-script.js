@@ -1,5 +1,6 @@
-const url = "http://127.0.0.1:8000/tasks";
-const url2 = "http://127.0.0.1:8000/tasks/";
+const BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`;
+const url = `${BASE_URL}/tasks`;
+const url2 = `${BASE_URL}/tasks/`;
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("task-form");
@@ -57,7 +58,7 @@ function savetask() {
 }
 
 //fetch data from the API
-fetch(url)
+fetch(url2)
   .then((response) => response.json())
   .then((data) => {
     const container = document.getElementById("data-container");

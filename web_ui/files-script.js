@@ -1,5 +1,6 @@
-url = "http://127.0.0.1:8000/files/list";
-url2 = "http://127.0.0.1:8000/files/";
+const BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`;
+const url = `${BASE_URL}/files/list`;
+const url2 = `${BASE_URL}/files/`;
 
 function formatSize(bytes) {
   if (bytes < 1024) {
@@ -46,11 +47,12 @@ fetch(url)
     const formData = new FormData();
     formData.append('file', file);
     
-    fetch('http://127.0.0.1:8000/files/upload', {
+    fetch(`${url2}upload`, {
       method: 'POST',
       body: formData,
     })
       .then(response => response.json())
+      .then(location.reload())
       .catch(error => {
         console.error('Errore caricamento:', error);
         alert('Errore caricamento');

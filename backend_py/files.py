@@ -7,9 +7,6 @@ import mimetypes
 
 router = APIRouter()
 
-#http://127.0.0.1:8000/files/list
-#http://127.0.0.1:8000/files/download/
-
 SHARED_FOLDER = "public/public_files"
 METADATA_PATH = "public/metadata/files_metadata.json"
 

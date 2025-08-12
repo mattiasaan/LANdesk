@@ -1,5 +1,6 @@
-const url = "http://127.0.0.1:8000/notes";
-const url2 = "http://127.0.0.1:8000/notes/";
+const BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`;
+const url = `${BASE_URL}/notes`;
+const url2 = `${BASE_URL}/notes/`;
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("note-form");
@@ -19,7 +20,7 @@ function saveNote() {
 
   if (editingId) {
     //edit
-    fetch(`${url}/${editingId}`, {
+    fetch(`${url2}${editingId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +58,7 @@ function saveNote() {
 }
 
 //fetch data from the API
-fetch(url)
+fetch(url2)
   .then((response) => response.json())
   .then((data) => {
     const container = document.getElementById("data-container");
