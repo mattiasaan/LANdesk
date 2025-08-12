@@ -1,4 +1,4 @@
-const BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`;
+const BASE_URL = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}`;
 const url = `${BASE_URL}/files/list`;
 const url2 = `${BASE_URL}/files/`;
 
@@ -52,7 +52,7 @@ fetch(url)
       body: formData,
     })
       .then(response => response.json())
-      .then(location.reload())
+      .then(() => location.reload())
       .catch(error => {
         console.error('Errore caricamento:', error);
         alert('Errore caricamento');
