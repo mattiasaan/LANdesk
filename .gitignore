@@ -11,10 +11,14 @@ __pycache__/
 .env.*
 
 
+*.pem
+*.key
+
+
 .vscode/
 
 # === JSON files ===
-*.json
+
 
 # === macOS/Linux system files ===
 .DS_Store
@@ -34,6 +38,8 @@ venv/
 public/uploads/
 public/data/
 public/
+backup_data/
+secure/
 
 # === Misc ===
 *.bak

@@ -7,7 +7,7 @@ import os
 
 router = APIRouter()
 
-DATABASE_PATH = "data_tasks.json"
+DATABASE_PATH = "./public/data_tasks.json"
 
 
 class Task(BaseModel):

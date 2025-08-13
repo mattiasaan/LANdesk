@@ -7,14 +7,12 @@ import os
 
 router = APIRouter()
 
-DATABASE_PATH = "data_notes.json"
+DATABASE_PATH = "./public/data_notes.json"
 
 class Note(BaseModel):
   title: str
   description: str
   id: Optional[str] = None
-
-#python -m uvicorn main:app --reload
 
 
 @router.get("/")
