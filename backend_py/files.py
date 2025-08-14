@@ -10,17 +10,25 @@ router = APIRouter()
 SHARED_FOLDER = "public/public_files"
 METADATA_PATH = "public/metadata/files_metadata.json"
 
+MAX_FILE_SIZE = 1 * 1024 * 1024 * 1024
 
 @router.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
   file_id = str(uuid4())
   ext = os.path.splitext(file.filename)[1]
   stored_name = f"{file_id}{ext}"
-  path = os.path.join(SHARED_FOLDER, stored_name)
-
+  path = os.path.abspath(os.path.join(SHARED_FOLDER, stored_name))
+  
+  if not path.startswith(os.path.abspath(SHARED_FOLDER)):
+    raise HTTPException(400, "Percorso non valido")
+  
+  contents = await file.read()
+  if len(contents) > MAX_FILE_SIZE:
+    raise HTTPException(400, "File max 1gb")
+  
   with open(path, "wb") as f_out:
-    f_out.write(await file.read())
-
+    f_out.write(contents)
+  
   metadata = load_metadata()
   metadata[file_id] = {
     "original_name": file.filename,
@@ -47,7 +55,10 @@ async def download_file(file_id: str):
 
   if not file_data:
     return {"error": "File non trovato"}
-  path = os.path.join(SHARED_FOLDER, file_data["stored_name"])
+
+  path = os.path.abspath(os.path.join(SHARED_FOLDER, file_data["stored_name"]))
+  if not path.startswith(os.path.abspath(SHARED_FOLDER)):
+    raise HTTPException(400, "Percorso nn valido")
 
   mime_type, _ = mimetypes.guess_type(file_data["original_name"])
 
@@ -56,8 +67,9 @@ async def download_file(file_id: str):
 
   return FileResponse(
     path,
+    media_type="application/octet-stream",
     filename=file_data["original_name"],
-    media_type=mime_type
+    headers={"Content-Disposition": f"attachment; filename={file_data['original_name']}"}
   )
 
 @router.delete("/delete/{file_id}", status_code=204)
@@ -70,7 +82,10 @@ async def delete_file(file_id: str):
   file_data = metadata[file_id]
   del metadata[file_id]
 
-  path = os.path.join(SHARED_FOLDER, file_data["stored_name"])
+  path = os.path.abspath(os.path.join(SHARED_FOLDER, file_data["stored_name"]))
+  if not path.startswith(os.path.abspath(SHARED_FOLDER)):
+    raise HTTPException(400, "Percorso non valido")
+
   if os.path.exists(path):
     os.remove(path)
 

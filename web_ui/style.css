@@ -169,9 +169,10 @@ form button:hover {
 }
 
 .card .actions .download {
-  background-color: #5eff00b4;
+  background-color: #39a000;
+  color: #ffffff;
 }
 
 .card .actions .download:hover {
-  background-color: #3bbb00c7;
+  background-color: #2a7000;
 }
