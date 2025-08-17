@@ -2,6 +2,8 @@ const BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`
 const url = `${BASE_URL}/tasks`;
 const url2 = `${BASE_URL}/tasks/`;
 
+const token = localStorage.getItem("access_token");
+
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("task-form");
   form.addEventListener("submit", function (e) {
@@ -25,6 +27,7 @@ function savetask() {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(taskData),
     })
@@ -43,6 +46,7 @@ function savetask() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(taskData),
     })
@@ -58,7 +62,13 @@ function savetask() {
 }
 
 //fetch data from the API
-fetch(url2)
+fetch(url2, {
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${token}`
+  }
+})
   .then((response) => response.json())
   .then((data) => {
     const container = document.getElementById("data-container");
@@ -114,6 +124,7 @@ function addtask() {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
     },
     body: JSON.stringify(newtask),
   })
@@ -126,7 +137,13 @@ function addtask() {
 
 //edit and delete functions
 function edittask(id) {
-  fetch(`${url}/${id}`)
+  fetch(`${url}/${id}`,{
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    }
+  })
     .then((response) => response.json())
     .then((task) => {
       document.getElementById("task-title").value = task.title;
@@ -148,6 +165,10 @@ function deletetask(id) {
   if (confirm("Are you sure you want to delete this task?")) {
     fetch(`${url}/${id}`, {
       method: "DELETE",
+      headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    }
     }).then((response) => {
       if (response.ok) {
         location.reload();
@@ -163,7 +184,13 @@ function toggleStatus(id) {
   const checkbox = document.getElementById(`status-${id}`);
   const completed = checkbox.checked;
 
-  fetch(`${url}/${id}`)
+  fetch(`${url}/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    }
+  })
     .then((response) => {
       if (!response.ok) {
         throw new Error("Failed to fetch task data.");
@@ -182,6 +209,7 @@ function toggleStatus(id) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify(updatedTask),
       });

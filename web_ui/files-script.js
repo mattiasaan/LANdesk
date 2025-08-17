@@ -2,6 +2,8 @@ const BASE_URL = `${window.location.protocol}//${window.location.hostname}${wind
 const url = `${BASE_URL}/files/list`;
 const url2 = `${BASE_URL}/files/`;
 
+const token = localStorage.getItem("access_token");
+
 function formatSize(bytes) {
   if (bytes < 1024) {
     return `${bytes} B`;
@@ -12,7 +14,13 @@ function formatSize(bytes) {
   }
 }
 
-fetch(url)
+fetch(url, {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  }
+})
   .then(response => response.json())
   .then(data => {
     const dataContainer = document.getElementById('data-container');
@@ -50,6 +58,9 @@ fetch(url)
     fetch(`${url2}upload`, {
       method: 'POST',
       body: formData,
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
     })
       .then(response => response.json())
       .then(() => location.reload())
@@ -60,9 +71,13 @@ fetch(url)
   }
 
   function deleteFile(fileid) {
-    if (confirm("Are you sure you want to delete this task?")) {
+    if (confirm("Are you sure you want to delete this file?")) {
       fetch(`${url2}delete/${fileid}`, {
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
       })
         .then(response => {
           if (response.ok) {
@@ -78,11 +93,32 @@ fetch(url)
     }
   }
 
-function downloadFile(fileid, filename) {
-  const a = document.createElement('a');
-  a.href = `${url2}download/${fileid}`;
-  a.download = filename || fileid;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
+async function downloadFile(fileid, filename) {
+  try {
+    const response = await fetch(`${url2}download/${fileid}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error("Erore nel download del file");
+    }
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename || fileid;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+
+  } catch (err) {
+    console.error(err);
+    alert("errore durante il download: " + err.message);
+  }
 }

@@ -2,6 +2,8 @@ const BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`
 const url = `${BASE_URL}/notes`;
 const url2 = `${BASE_URL}/notes/`;
 
+const token = localStorage.getItem("access_token");
+
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("note-form");
   form.addEventListener("submit", function (e) {
@@ -24,6 +26,7 @@ function saveNote() {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(noteData),
     })
@@ -43,6 +46,7 @@ function saveNote() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(noteData),
     })
@@ -58,7 +62,13 @@ function saveNote() {
 }
 
 //fetch data from the API
-fetch(url2)
+fetch(url2, {
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${token}`
+  }
+})
   .then((response) => response.json())
   .then((data) => {
     const container = document.getElementById("data-container");
@@ -102,6 +112,7 @@ function addNote() {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
     },
     body: JSON.stringify(newNote),
   })
@@ -114,7 +125,13 @@ function addNote() {
 
 //edit and delete functions
 function editNote(id) {
-  fetch(`${url}/${id}`)
+  fetch(`${url}/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    }
+  })
     .then((response) => response.json())
     .then((note) => {
       document.getElementById("note-title").value = note.title;
@@ -134,6 +151,10 @@ function deleteNote(id) {
     console.log(`Delete note with ID: ${id}`);
     fetch(`${url}/${id}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
     }).then((response) => {
       if (response.ok) {
         location.reload();
