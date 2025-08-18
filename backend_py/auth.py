@@ -13,7 +13,7 @@ SECRET_KEY = os.getenv("KEY", "key")
 
 ALGORITHM = "HS256"
 
-ACCESS_TOKEN_EXPIRE = 60
+ACCESS_TOKEN_EXPIRE = 120
 
 
 USERS_PATH = "./secure/users.json"

@@ -10,11 +10,21 @@
 
   <body>
     <div class="container">
-      <h1>I tuoi file</h1>
-      <form>
+      <div class="header-row">
+        <button type="button" class="back-button" onclick="history.back()">Indietro</button>
+        <h1>I tuoi file</h1>
+      </div>
+
+    <form>
+      <label class="file-label">
+        Scegli file
         <input type="file" id="file-input" />
-        <button onclick="addFile()" type="button">upload the new file</button>
-      </form>
+        <span id="file-name" class="file-name">Nessun file selezionato</span>
+      </label>
+      
+      <button onclick="addFile()" type="button">Carica il nuovo file</button>
+    </form>
+
       <div class="data-container" id="data-container"></div>
     </div>
   </body>

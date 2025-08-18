@@ -184,6 +184,8 @@ function toggleStatus(id) {
   const checkbox = document.getElementById(`status-${id}`);
   const completed = checkbox.checked;
 
+  checkbox.nextElementSibling.textContent = completed ? "Completato" : "Incompleto";
+
   fetch(`${url}/${id}`, {
     method: "GET",
     headers: {
@@ -214,21 +216,16 @@ function toggleStatus(id) {
         body: JSON.stringify(updatedTask),
       });
     })
-
     .then((response) => {
       if (!response.ok) {
         throw new Error("Failed to update task status.");
       }
       return response.json();
     })
-
-    .then((data) => {
-      checkbox.nextElementSibling.textContent = data.completed ? "Completato" : "Incompleto";
-    })
-
     .catch((error) => {
       console.error("Error updating task status:", error);
       checkbox.checked = !completed;
+      checkbox.nextElementSibling.textContent = !completed ? "Completato" : "Incompleto";
     });
 }
 

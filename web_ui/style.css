@@ -29,6 +29,49 @@ h1 {
 }
 
 /* --- FORM STYLES --- */
+#file-input {
+  display: none;
+}
+
+/* Custom file button */
+.file-label {
+  display: inline-block;
+  padding: 6px 12px;               /* slightly smaller, fits form layout */
+  font-size: 14px;                  /* matches input text size */
+  color: #eee;
+  background-color: #121212;
+  border: 1px solid #161618;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border 0.3s ease, box-shadow 0.3s ease;;
+  font-weight: 400;                  /* lighter weight to blend */
+  line-height: 1.4;                  /* better vertical alignment */
+}
+
+.file-label:hover {
+  border: 1px solid #0056b3;
+  box-shadow: 0 0 8px rgba(0, 86, 179, 0.6);
+  outline: none;
+}
+
+.file-label:active {
+  background-color: #111;
+  border-color: #222;
+}
+
+.file-name {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #bbb;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+
 form {
   display: flex;
   flex-direction: column;
@@ -265,6 +308,62 @@ form button:hover {
   background-color: #1a1a1a;
   box-shadow: 0 6px 15px rgba(0,0,0,0.8);
 }
+
+/* --- HEADER ROW --- */
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+/* --- HEADER ROW --- */
+.header-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;     /* centers vertically */
+  margin-bottom: 20px;
+}
+
+.header-row h1 {
+  grid-column: 2;          /* force title in the middle column */
+  text-align: center;
+  margin: 0;
+}
+
+.header-row .back-button {
+  justify-self: start;     /* stick to the left side */
+}
+
+/* --- BACK BUTTON (subtle style) --- */
+.back-button {
+  background-color: transparent;       /* no heavy box */
+  color: #ccc;                         /* soft gray */
+  border: 1px solid #2a2a2a;           /* faint border to show it’s a button */
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 5px 12px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;                            /* space between arrow + text */
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.back-button:hover {
+  color: #eee;
+  background-color: #1a1a1a;           /* very subtle hover feedback */
+  border-color: #333;
+}
+
+.back-button:active {
+  color: #aaa;
+  background-color: #111;
+  border-color: #222;
+}
+
+
 
 /* --- RESPONSIVE STYLES --- */
 @media (max-width: 768px) {

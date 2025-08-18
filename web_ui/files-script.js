@@ -4,6 +4,18 @@ const url2 = `${BASE_URL}/files/`;
 
 const token = localStorage.getItem("access_token");
 
+const fileInput = document.getElementById('file-input');
+const fileNameDisplay = document.getElementById('file-name');
+
+fileInput.addEventListener('change', () => {
+  if (fileInput.files.length > 0) {
+    fileNameDisplay.textContent = fileInput.files[0].name;
+  } else {
+    fileNameDisplay.textContent = "Nessun file selezionato";
+  }
+});
+
+
 function formatSize(bytes) {
   if (bytes < 1024) {
     return `${bytes} B`;
