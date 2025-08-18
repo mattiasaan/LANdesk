@@ -12,7 +12,6 @@ LANdesk is a self-hosted, local-first dashboard for managing personal productivi
 6. [Utility Scripts](#utility-scripts)
 7. [Enabling HTTPS (Optional)](#enabling-https-optional)
 
----
 
 ## Features
 
@@ -23,7 +22,6 @@ LANdesk is a self-hosted, local-first dashboard for managing personal productivi
 - **Progressive Web App (PWA):** Service worker and manifest enable offline access and installation on desktop or mobile(read below).
 - **Responsive UI:** Modern, dark-themed interface compatible with different screen sizes.
 
----
 
 ## Tech Stack
 
@@ -33,7 +31,6 @@ LANdesk is a self-hosted, local-first dashboard for managing personal productivi
 - **Frontend:** HTML, CSS, and JavaScript
 - **Database:** JSON files for simple data storing
 
----
 
 ## Getting Started
 
@@ -85,13 +82,11 @@ These instructions will help you set up and run LANdesk locally.
    ```
    Server will run at `http://127.0.0.1:8000` (for lan usage read below).
 
----
 
 ## Accessing the Frontend
 
 Open your browser and navigate to `http://127.0.0.1:8000` . Log in using the credentials created during setup.
 
----
 
 ## Usage
 
@@ -100,14 +95,12 @@ Open your browser and navigate to `http://127.0.0.1:8000` . Log in using the cre
 - **Notes:** Create, edit, and remove personal notes.
 - **Files:** Upload, download, or delete files for local network sharing.
 
----
 
 ## Utility Scripts
 
 - `backend_py/add_user.py` – Command-line tool to add new users.
 - `backend_py/generators/` – Python scripts (`note_sender.py`, `task_sender.py`) using Faker to generate and post sample data for testing.
 
----
 
 ## Enabling HTTPS (Optional)
 
@@ -125,7 +118,5 @@ you can use mkcer please follow the installation at [mkcert GitHub](https://gith
 
 3. **Access LANdesk via HTTPS:**  
    Navigate to `https://yourIP:8000`.
-
-> Note: This README was drafted with the assistance of AI and reviewed/edited by the author.
 
 
