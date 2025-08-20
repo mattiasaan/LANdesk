@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gestione link</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="links-script.js" defer></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header-row">
+        <button type="button" class="back-button" onclick="history.back()">
+          Indietro
+        </button>
+        <h1>I tuoi link</h1>
+      </div>
+
+      <form id="link-form">
+        <input type="text" id="link-title" placeholder="Titolo"/>
+        <textarea
+          id="link-description"
+          placeholder="Link"
+          required
+        ></textarea>
+        <button type="submit">Salva Link</button>
+      </form>
+
+      <!-- Contenitore per le link -->
+      <div class="data-container" id="data-container"></div>
+    </div>
+  </body>
+</html>
