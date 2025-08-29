@@ -13,13 +13,17 @@ DATABASE_PATH = "./public/data_links.json"
 class link(BaseModel):
     title: str
     description: str
+    category_id: Optional[str] = None
     id: Optional[str] = None
 
 
 @router.get("/")
-async def list_links():
+async def list_links(category_id: Optional[str] = None):
     links = read_links_from_db()
+    if category_id:
+        links = [link for link in links if link.get("category_id") == category_id]
     return links
+
 
 
 @router.get("/{link_id}")

@@ -109,6 +109,102 @@ form textarea:focus {
   outline: none;
 }
 
+form select {
+  padding: 10px;
+  border: 1px solid #161618;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #121212;
+  color: #eee;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+form select:focus {
+  border: 1px solid #0056b3;
+  box-shadow: 0 0 8px rgba(0, 86, 179, 0.6);
+  outline: none;
+}
+
+#resource-panel {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0;
+  margin-top: 0;
+  border: none;
+  transition:
+    max-height 0.5s ease,
+    opacity 0.5s ease,
+    padding 0.3s ease,
+    margin 0.3s ease,
+    border 0.3s ease;
+}
+
+
+#resource-panel.show {
+  max-height: 300px; 
+  opacity: 1;
+  padding: 12px;
+  border: 1px solid #161618;
+}
+
+.resource-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 8px;
+  background-color: #121212;
+  color: #eee;
+  font-size: 15px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.resource-panel label {
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: #ccc;
+}
+
+.resource-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+/* Checkbox */
+.resource-options input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+
+.checkbox-group {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: #eee;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.checkbox-group label:hover {
+  color: #66aaff;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #0056b3;
+}
+
 form button {
   padding: 10px;
   background-color: #0056b3;

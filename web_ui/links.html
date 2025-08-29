@@ -18,12 +18,24 @@
       </div>
 
       <form id="link-form">
-        <input type="text" id="link-title" placeholder="Titolo"/>
-        <textarea
-          id="link-description"
-          placeholder="Link"
-          required
-        ></textarea>
+        <input type="text" id="link-title" placeholder="Titolo" required />
+        <textarea id="link-description" placeholder="Link" required></textarea>
+        
+        <select id="link-category">
+          <option value="">Seleziona categoria</option>
+        </select>
+
+        <input type="text" id="new-category" placeholder="Oppure nuova categoria" />
+
+        <div class="resource-panel" id="resource-panel">
+          <label>Categoria valida per</label>
+          <div class="resource-options">
+            <label><input type="checkbox" name="resource_types" value="links"> Link</label>
+            <label><input type="checkbox" name="resource_types" value="notes"> Note</label>
+            <label><input type="checkbox" name="resource_types" value="tasks"> Task</label>
+            <label><input type="checkbox" name="resource_types" value="files"> File</label>
+          </div>
+        </div>
         <button type="submit">Salva Link</button>
       </form>
 

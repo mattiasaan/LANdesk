@@ -1,8 +1,60 @@
 const BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`;
 const url = `${BASE_URL}/links`;
 const url2 = `${BASE_URL}/links/`;
+const categoriesUrl = `${BASE_URL}/categories/`;
 
 const token = localStorage.getItem("access_token");
+
+//Mostra/nasconde tipi di risorsa
+const newCategoryInput = document.getElementById("new-category");
+const categoryTypesBox = document.getElementById("resource-panel");
+
+newCategoryInput.addEventListener("input", () => {
+  if (newCategoryInput.value.trim() !== "") {
+    categoryTypesBox.classList.add("show");
+  } else {
+    categoryTypesBox.classList.remove("show");
+    // Deseleziona le checkbox quando scompare
+    categoryTypesBox.querySelectorAll("input[type='checkbox']").forEach(cb => cb.checked = false);
+  }
+});
+
+
+function getSelectedResourceTypes() {
+  const checkedBoxes = categoryTypesBox.querySelectorAll("input[type='checkbox']:checked");
+  return Array.from(checkedBoxes).map(cb => cb.value);
+}
+
+// carica categorie nel select
+document.addEventListener("DOMContentLoaded", () => {
+  loadCategories();
+
+  const form = document.getElementById("link-form");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    saveLink();
+  });
+});
+
+function loadCategories() {
+  fetch(categoriesUrl, {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    }
+  })
+    .then(res => res.json())
+    .then(categories => {
+      const select = document.getElementById("link-category");
+      categories.forEach(cat => {
+        const option = document.createElement("option");
+        option.value = cat.id;
+        option.textContent = cat.name;
+        select.appendChild(option);
+      });
+    })
+    .catch(err => console.error("Error loadng categories:", err));
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("link-form");
@@ -12,52 +64,61 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-function savelink() {
+function saveLink() {
   const title = document.getElementById("link-title").value;
   const description = document.getElementById("link-description").value;
+  const categorySelect = document.getElementById("link-category");
+  const newCategoryInput = document.getElementById("new-category").value.trim();
+  const newCategoryTypes = getSelectedResourceTypes();
 
-  const linkData = { title, description };
-  const form = document.getElementById("link-form");
-  const editingId = form.getAttribute("data-link-id");
+  let categoryId = categorySelect.value;
 
-  if (editingId) {
-    //edit
-    fetch(`${url2}${editingId}`, {
-      method: "PUT",
+  const proceedToSaveLink = (catId) => {
+    const linkData = { title, description, category_id: catId };
+    const form = document.getElementById("link-form");
+    const editingId = form.getAttribute("data-link-id");
+
+    const method = editingId ? "PUT" : "POST";
+    const endpoint = editingId ? `${url2}${editingId}` : url2;
+
+    fetch(endpoint, {
+      method: method,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(linkData),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("link updated successfully:", data);
+      .then(res => res.json())
+      .then(() => {
         form.reset();
         form.removeAttribute("data-link-id");
         location.reload();
       })
-      .catch((error) => {
-        console.error("Error updating link:", error);
-      });
-  } else {
-    //add
-    fetch(url2, {
+      .catch(err => console.error("Error saving link:", err));
+  };
+
+  if (newCategoryInput) {
+    // crea prima nuova categoria
+    fetch(categoriesUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       },
-      body: JSON.stringify(linkData),
+      body: JSON.stringify({ name: newCategoryInput, resource_types: newCategoryTypes })
     })
-      .then((response) => response.json())
-      .then((data) => {
-        form.reset();
-        location.reload();
+      .then(res => res.json())
+      .then(data => {
+        if (data.category && data.category.id) {
+          proceedToSaveLink(data.category.id);
+        } else {
+          console.error("Error creating category:", data);
+        }
       })
-      .catch((error) => {
-        console.error("Error adding link:", error);
-      });
+      .catch(err => console.error("Error creating category:", err));
+  } else {
+    proceedToSaveLink(categoryId); // usa categoria esistente
   }
 }
 
