@@ -1,4 +1,4 @@
-const BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`;
+const BASE_URL = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}`;
 const url = `${BASE_URL}/links`;
 const url2 = `${BASE_URL}/links/`;
 const categoriesUrl = `${BASE_URL}/categories/`;
@@ -122,42 +122,101 @@ function saveLink() {
   }
 }
 
-//fetch data from the API
-fetch(url2, {
-  method: "GET",
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${token}`
-  }
-})
-  .then((response) => response.json())
-  .then((data) => {
-    const container = document.getElementById("data-container");
-    data.forEach((link) => {
-      const linkElement = document.createElement("div");
-      linkElement.className = "card";
-      linkElement.innerHTML = `
-      <h2>${link.title}</h2>
-      <p>${link.description}</p>
-      <div class="actions">
-        <button class="download" onclick="copyLink('${link.id}', this)">Copia<span class="check"></span></button>
-        <button class="delete" onclick="deletelink('${link.id}')">Elimina</button>
-      </div>
-      `;
-      container.appendChild(linkElement);
+
+//carica e raggruppa i link per categoria
+function loadAndRenderLinks() {
+  const container = document.getElementById("data-container");
+  container.innerHTML = "Caricamento";
+
+  // carica categorie
+  fetch(categoriesUrl, { headers: { "Authorization": `Bearer ${token}` } })
+    .then(res => res.json())
+    .then(categories => {
+      const catMap = {};
+      categories.forEach(c => { catMap[c.id] = c.name; });
+
+      //carica link
+      return fetch(url2, { headers: { "Authorization": `Bearer ${token}` } })
+        .then(res => res.json())
+        .then(links => ({ links, catMap }));
+    })
+
+    .then(({ links, catMap }) => {
+      //raggruppa
+      const grouped = {};
+      links.forEach(link => {
+        const name = link.category_id ? (catMap[link.category_id] || "Senza categoria") : "Senza categoria";
+        if (!grouped[name]) grouped[name] = [];
+        grouped[name].push(link);
+      });
+
+      //ordina
+      const categoryNames = Object.keys(grouped).sort((a, b) => {
+        if (a === "Senza categoria") return -1;
+        if (b === "Senza categoria") return 1;
+
+        return a.localeCompare(b, "it");
+      });
+
+      // render
+      container.innerHTML = "";
+      categoryNames.forEach(cat => {
+        const catBlock = document.createElement("div");
+        catBlock.className = "category-block";
+
+        const h2 = document.createElement("h2");
+        h2.textContent = cat;
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Elimina categoria";
+        deleteBtn.onclick = () => {
+          const catId = Object.keys(catMap).find(key => catMap[key] === cat);
+          if (catId) deleteCategory(catId);
+        }
+
+        // Aggiungi il bottone dopo il testo
+        h2.appendChild(deleteBtn);
+        catBlock.appendChild(h2);
+
+        const dataWrap = document.createElement("div");
+        dataWrap.className = "data-container";
+
+        grouped[cat].sort((a, b) => a.title.localeCompare(b.title, "it"));
+
+        grouped[cat].forEach(link => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <h3>${link.title}</h3>
+            <p>${link.description}</p>
+            <div class="actions">
+              <button class="download" onclick="copyLink('${link.id}', this)">Copia<span class="check"></span></button>
+              <button class="delete" onclick="deletelink('${link.id}')">Elimina</button>
+            </div>
+          `;
+          dataWrap.appendChild(card);
+        });
+
+        catBlock.appendChild(dataWrap);
+        container.appendChild(catBlock);
+      });
+
+      if (categoryNames.length === 0) {
+        container.innerHTML = "<p>No data</p>";
+      }
+    })
+    .catch(err => {
+      console.error("Errore caricamento:", err);
+      container.innerHTML = "<p>Error loading data</p>";
     });
-  })
-  .catch((error) => {
-    console.error("Error fetching data:", error);
-    const container = document.getElementById("data-container");
-    container.innerHTML = "<p>Error loading data.</p>";
-  })
-  .finally(() => {
-    const container = document.getElementById("data-container");
-    if (container.children.length === 0) {
-      container.innerHTML = "<p>No data available.</p>";
-    }
-  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadCategories();
+  loadAndRenderLinks();
+});
+
+
 
 //add new link function
 function addlink() {
@@ -227,3 +286,24 @@ function deletelink(id) {
     });
   }
 }
+
+function deleteCategory(catId) {
+  if (!confirm("Sei sicuro di voler eliminare questa categoria?")) return;
+
+  fetch(`${categoriesUrl}${catId}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json"
+    }
+  })
+  .then(res => {
+    if (!res.ok) throw new Error("Errore eliminazione categoria");
+    loadAndRenderLinks();
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Impossibile eliminare categoria");
+  });
+}
+

@@ -340,6 +340,59 @@ form button:hover {
   box-shadow: 0 0 8px #00c853;
 }
 
+/* --- CATEGORY LAYOUT --- */
+.category-block {
+  width: 100%;
+  margin-top: 40px;
+}
+
+.category-block h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 20px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #222;
+}
+
+.category-block .data-container {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+
+.category-block h2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 20px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #222;
+}
+
+.category-block h2 button {
+  background-color: #ff0019a9;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.category-block h2 button:hover {
+  box-shadow: 0 4px 10px rgba(255,0,25,0.4);
+  transform: translateY(-2px);
+}
+
+
 /* --- CARD BUTTONS --- */
 .card .actions {
   margin-top: 15px;

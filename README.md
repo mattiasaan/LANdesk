@@ -4,19 +4,24 @@ LANdesk is a self-hosted, local-first dashboard for managing personal productivi
 
 ## Table of Contents
 
-1. [Features](#features)
-2. [Tech Stack](#tech-stack)
-3. [Getting Started](#getting-started)
-4. [Accessing the Frontend](#accessing-the-frontend)
-5. [Usage](#usage)
-6. [Utility Scripts](#utility-scripts)
-7. [Enabling HTTPS (Optional)](#enabling-https-optional)
+- [LANdesk](#landesk)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Tech Stack](#tech-stack)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+  - [Accessing the Frontend](#accessing-the-frontend)
+  - [Utility Scripts](#utility-scripts)
+  - [Enabling HTTPS (Optional)](#enabling-https-optional)
+    - [Steps:](#steps)
 
 
 ## Features
 
 - **Task Management:** Create, update, and delete tasks with title, description, due date, and completion status.
 - **Note Taking:** Create, edit, and delete personal notes.
+-  **link Management:** add, copy and delete Links.
 - **File Sharing:** Upload, list, download, and delete files within your local network.
 - **Secure Authentication:** User authentication using JWT (JSON Web Tokens) to protect all endpoints.
 - **Progressive Web App (PWA):** Service worker and manifest enable offline access and installation on desktop or mobile(read below).
@@ -59,6 +64,7 @@ These instructions will help you set up and run LANdesk locally.
    mkdir -p backend_py/public/public_files backend_py/public/metadata backend_py/secure
    echo "[]" > backend_py/public/data_notes.json
    echo "[]" > backend_py/public/data_tasks.json
+   echo "[]" > backend_py/public/data_category.json
    echo "{}" > backend_py/public/metadata/files_metadata.json
    echo "{}" > backend_py/secure/users.json
    ```
@@ -86,14 +92,6 @@ These instructions will help you set up and run LANdesk locally.
 ## Accessing the Frontend
 
 Open your browser and navigate to `http://127.0.0.1:8000` . Log in using the credentials created during setup.
-
-
-## Usage
-
-- **Home Page:** Dashboard with links to Tasks, Notes, and Files.
-- **Tasks:** Add, edit, complete, or delete tasks.
-- **Notes:** Create, edit, and remove personal notes.
-- **Files:** Upload, download, or delete files for local network sharing.
 
 
 ## Utility Scripts
