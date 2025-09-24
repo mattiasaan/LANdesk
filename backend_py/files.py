@@ -72,6 +72,24 @@ async def download_file(file_id: str):
     headers={"Content-Disposition": f"attachment; filename={file_data['original_name']}"}
   )
 
+@router.get("/preview/{file_id}")
+async def preview_file(file_id: str):
+  file_data = load_metadata().get(file_id)
+
+  if not file_data:
+    raise HTTPException(404, "File non trovato")
+  
+  path = os.path.abspath(os.path.join(SHARED_FOLDER, file_data["stored_name"]))
+  if not path.startswith(os.path.abspath(SHARED_FOLDER)):
+    raise HTTPException(400, "Percorso nn valido")
+  
+  mime_type, _  = mimetypes.guess_type(file_data["original_name"])
+  if not mime_type:
+    mime_type = "application/octet-stream"
+  
+  return FileResponse(path, media_type=mime_type, filename=file_data["original_name"])
+
+
 @router.delete("/delete/{file_id}", status_code=204)
 async def delete_file(file_id: str):
   metadata = load_metadata()

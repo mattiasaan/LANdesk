@@ -56,6 +56,7 @@ fetch(url, {
           </div>
         </div>
       `;
+      fileDiv.onclick = () => previewFile(file.id, file.name, file.type);
       dataContainer.appendChild(fileDiv);
     });
   })
@@ -133,4 +134,87 @@ async function downloadFile(fileid, filename) {
     console.error(err);
     alert("errore durante il download: " + err.message);
   }
+}
+
+function previewFile(fileid, filename, filetype) {
+  const previewUrl = `${url2}preview/${fileid}`;
+
+  const extension = filetype.toLowerCase();
+
+  if (["jpg", "jpeg", "png", "gif", "bmp", "webp"].includes(extension)) {
+    fetch(previewUrl, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then(r => r.blob())
+      .then(blob => {
+        const imgUrl = URL.createObjectURL(blob);
+        showModal(`<img src="${imgUrl}" alt="${filename}" style="max-width:100%">`);
+      });
+
+  } else if (["pdf"].includes(extension)) {
+    fetch(previewUrl, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then(r => r.blob())
+      .then(blob => {
+        const pdfUrl = URL.createObjectURL(blob);
+        showModal(`<iframe src="${pdfUrl}" style="width:100%;height:80vh;" frameborder="0"></iframe>`);
+      });
+
+  } else if (["txt", "md", "csv", "json"].includes(extension)) {
+    fetch(previewUrl, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then(r => r.text())
+      .then(text => showModal(`<pre style="max-height:70vh;overflow:auto">${text}</pre>`));
+
+  } else if (["mp3", "wav", "ogg"].includes(extension)) {
+    fetch(previewUrl, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then(r => r.blob())
+      .then(blob => {
+        const audioUrl = URL.createObjectURL(blob);
+        showModal(`<audio controls src="${audioUrl}" style="width:100%"></audio>`);
+      });
+
+  } else if (["mp4", "webm", "ogg"].includes(extension)) {
+    fetch(previewUrl, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then(r => r.blob())
+      .then(blob => {
+        const videoUrl = URL.createObjectURL(blob);
+        showModal(`<video controls src="${videoUrl}" style="width:100%;max-height:70vh"></video>`);
+      });
+
+  } else {
+    // per gli altri tipi scarica file
+    fetch(previewUrl, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then(r => r.blob())
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename || fileid;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+      });
+  }
+}
+
+function showModal(html) {
+  let modal = document.getElementById('preview-modal');
+
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'preview-modal';
+    modal.innerHTML = `<div id="modal-content"></div>`;
+    document.body.appendChild(modal);
+  }
+  document.getElementById('modal-content').innerHTML = html + '<br><button onclick="document.getElementById(\'preview-modal\').remove();event.stopPropagation();">Chiudi</button>';
 }

@@ -284,10 +284,11 @@ form button:hover {
   -webkit-line-clamp: 1;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: normal;
   word-wrap: break-word;
   max-width: 100%;
-  margin: 0;
-  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .card p {
@@ -583,5 +584,92 @@ form button:hover {
   .card p, h2, h3 {
     line-clamp: 1;
     -webkit-line-clamp: 1;
+  }
+}
+
+/* --- PREVIEW MODAl--- */
+#preview-modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+}
+
+#modal-content {
+  background: #181818;
+  color: #eee;
+  padding: 20px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#modal-content img,
+#modal-content video,
+#modal-content iframe {
+  max-width: 80vw;
+  max-height: 65vh;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+#modal-content pre {
+  max-width: 80vw;
+  max-height: 60vh;
+  overflow: auto;
+  background: #222;
+  color: #eee;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+#modal-content button {
+  margin-top: 18px;
+  padding: 8px 18px;
+  font-size: 15px;
+  border-radius: 6px;
+  background: #0056b3;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#modal-content button:hover {
+  background: #1c418b;
+}
+
+@media (max-width: 600px) {
+  #modal-content {
+    padding: 8px;
+    max-width: 98vw;
+    max-height: 98vh;
+  }
+  #modal-content img,
+  #modal-content video,
+  #modal-content iframe,
+  #modal-content pre {
+    max-width: 96vw;
+    max-height: 60vh;
+    font-size: 13px;
+  }
+  #modal-content button {
+    font-size: 13px;
+    padding: 7px 12px;
   }
 }
