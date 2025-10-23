@@ -6,7 +6,7 @@ import os
 USERS_FILE = "./secure/users.json"
 
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 #python add_user.py
 
@@ -28,6 +28,9 @@ def add_user(username, password):
   if username in users:
     print(f"{username}' esiste già")
     return
+  
+  password = password[:72]
+
   hashed_password = pwd_context.hash(password)
   users[username] = {
     "username": username,
